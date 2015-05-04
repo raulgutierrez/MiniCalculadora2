@@ -138,7 +138,7 @@ public class MiniCalculadora extends javax.swing.JFrame {
             }
         }
     
-
+/////////////////
     }//GEN-LAST:event_calcular
 
 /**
