@@ -26,31 +26,37 @@ public class MiniCalculadora extends javax.swing.JFrame {
     private void initComponents() {
 
         txfNum1 = new javax.swing.JTextField();
-        combo = new javax.swing.JComboBox();
+        comboBox = new javax.swing.JComboBox();
         txfNum2 = new javax.swing.JTextField();
-        btnIgual = new javax.swing.JButton();
-        txFResultado = new javax.swing.JTextField();
+        boton = new javax.swing.JButton();
+        txfResultado = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MiniCalculadora 1.0");
 
         txfNum1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txfNum1.setText("0");
 
-        combo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "+", "-", "*", "/" }));
+        comboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "+", "-", "*", "/" }));
 
         txfNum2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         txfNum2.setText("0");
 
-        btnIgual.setText("=");
+        boton.setText("=");
+        boton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                calcular(evt);
+            }
+        });
 
-        txFResultado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txFResultado.setText("0");
+        txfResultado.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        txfResultado.setText("0");
 
         jLabel1.setFont(new java.awt.Font("Lucida Console", 0, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("CONTROLADOR DE VERSIONES EN NETBEANS");
+        jLabel1.setText("CONTROL DE VERSIONES EN NETBEANS");
 
         jLabel2.setFont(new java.awt.Font("Lucida Console", 0, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -68,13 +74,13 @@ public class MiniCalculadora extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(txfNum1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(combo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(comboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txfNum2, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnIgual, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(boton, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txFResultado)))
+                        .addComponent(txfResultado)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -84,10 +90,10 @@ public class MiniCalculadora extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txFResultado)
-                    .addComponent(btnIgual, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txfResultado)
+                    .addComponent(boton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(txfNum2)
-                    .addComponent(combo)
+                    .addComponent(comboBox)
                     .addComponent(txfNum1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -97,10 +103,48 @@ public class MiniCalculadora extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+    private void calcular(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_calcular
+        Numero n1 = new Numero(txfNum1.getText(), ',');
+        Numero n2 = new Numero(txfNum2.getText(), ',');
+        double num1 = n1.getNumero();
+        double num2 = n2.getNumero();
+        double resul = 0;
+        if (num1 == Double.MAX_VALUE || num2 == Double.MAX_VALUE) {
+            txfResultado.setText("error");
+        } else {
+            String operacion = (String) comboBox.getSelectedItem();
+            switch (operacion) {
+                case "+":
+                    resul = num1 + num2;
+                    break;
+                case "-":
+                    resul = num1 - num2;
+                    break;
+                case "*":
+                    resul = num1 * num2;
+                    break;
+                case "/":
+                    if (num2 == 0) {
+                        resul = Double.MAX_VALUE;
+                    } else {
+                        resul = num1 / num2;
+                    }
+            }
+            if (resul == Double.MAX_VALUE) {
+                txfResultado.setText("error");
+            } else {
+                Numero resultado = new Numero(resul);
+                txfResultado.setText(resultado.toString());
+            }
+        }
+    
+
+    }//GEN-LAST:event_calcular
+
+/**
+ * @param args the command line arguments
+ */
+public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -111,16 +155,32 @@ public class MiniCalculadora extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MiniCalculadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MiniCalculadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MiniCalculadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MiniCalculadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MiniCalculadora.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MiniCalculadora.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MiniCalculadora.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MiniCalculadora.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -133,12 +193,12 @@ public class MiniCalculadora extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnIgual;
-    private javax.swing.JComboBox combo;
+    private javax.swing.JButton boton;
+    private javax.swing.JComboBox comboBox;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField txFResultado;
     private javax.swing.JTextField txfNum1;
     private javax.swing.JTextField txfNum2;
+    private javax.swing.JTextField txfResultado;
     // End of variables declaration//GEN-END:variables
 }
