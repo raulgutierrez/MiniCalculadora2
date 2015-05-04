@@ -137,8 +137,6 @@ public class MiniCalculadora extends javax.swing.JFrame {
                 txfResultado.setText(resultado.toString());
             }
         }
-    
-/////////////////
     }//GEN-LAST:event_calcular
 
 /**
